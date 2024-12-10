@@ -45,7 +45,7 @@ function LoginForm() {
 					Sign Up
 				</button>
 				<p className='text-sm text-gray-600'>
-					Did't have an account?{" "}
+					Didn&apos;t have an account?{" "}
 					<Link href='/register' className='text-blue-600'>
 						Register
 					</Link>
