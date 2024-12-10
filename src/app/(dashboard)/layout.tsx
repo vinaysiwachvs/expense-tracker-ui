@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import { Outfit } from "next/font/google";
+import "../globals.css";
+
 export const metadata: Metadata = {
 	title: "Expense Tracker",
 	description: "Created by Vinay Siwach",
 };
+
+const outfit = Outfit({ subsets: ["latin"] });
 
 export default function RootLayout({
 	children,
@@ -12,7 +16,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body>{children}</body>
+			<body className={outfit.className}>{children}</body>
 		</html>
 	);
 }
