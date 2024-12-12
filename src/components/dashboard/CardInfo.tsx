@@ -1,6 +1,5 @@
 import { IBudget } from "@/types/budget";
 import { IExpense } from "@/types/expense";
-import { IUser } from "@/types/user";
 import { formatCurrency } from "@/utils/common";
 import { PiggyBank, ReceiptText, Wallet } from "lucide-react";
 
