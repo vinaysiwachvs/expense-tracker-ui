@@ -48,7 +48,7 @@ const RegisterForm = () => {
 	const onSubmit = async (data: z.infer<typeof registerSchema>) => {
 		try {
 			setIsLoading(true);
-			const response = await registerUserHandler(data);
+			const response = await registerUserHandler(data as any);
 			if (response && response.token) {
 				toast({
 					title: "Registration successful.",

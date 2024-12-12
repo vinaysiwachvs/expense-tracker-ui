@@ -17,7 +17,7 @@ async function BudgetList() {
 							.map((budget: IBudget) => (
 								<BudgetItem key={budget._id} budget={budget} />
 							))
-					: numArray.map((index, num) => (
+					: numArray.map((index) => (
 							<div
 								className='w-full bg-slate-200 rounded-lg h-[150px] animate-pulse'
 								key={index}></div>

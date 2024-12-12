@@ -2,6 +2,7 @@ import Logger from "@/utils/logger";
 import * as FetchUtils from "./common/fetch-utils";
 import { IUser } from "@/types/user";
 
+// eslint-disable-next-line
 const logger = new Logger("lib/auth");
 
 const registerapiUrl = `${process.env.NEXT_PUBLIC_URL}/api/users`;

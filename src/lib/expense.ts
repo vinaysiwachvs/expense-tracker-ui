@@ -2,11 +2,16 @@ import Logger from "@/utils/logger";
 import * as FetchUtils from "./common/fetch-utils";
 import { IExpense } from "@/types/expense";
 
+// eslint-disable-next-line
 const logger = new Logger("lib/expense");
 
 const apiUrl = `${process.env.NEXT_PUBLIC_URL}/api/expenses`;
 
-export const createExpense = async (payload: {}) => {
+export const createExpense = async (payload: {
+	name: string;
+	amount: number;
+	budgetId: string;
+}) => {
 	const response = await FetchUtils.post(apiUrl, payload, {
 		isWithToken: true,
 		isWithCache: false,

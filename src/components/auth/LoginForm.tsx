@@ -14,14 +14,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { loginUserHandler } from "@/actions/auth";
 import { useRouter } from "next/navigation";
-import CommonButton from "../common/Button";
-import { useState } from "react";
-import Link from "next/link";
+import CommonButton from "@/components/common/Button";
 import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
+import { useState } from "react";
 
 // Define the schema with Zod validation
 const loginSchema = z.object({
-	email: z.string().email("Invalid email address"),
+	email: z
+		.string()
+		.min(1, "Email is required")
+		.email("Invalid email address"),
 	password: z
 		.string()
 		.min(6, "Password must be at least 6 characters")
@@ -35,15 +38,15 @@ const LoginForm = () => {
 	const form = useForm<z.infer<typeof loginSchema>>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
-			email: "",
-			password: "",
+			email: "", // Required field
+			password: "", // Required field
 		},
 	});
 
 	const onSubmit = async (data: z.infer<typeof loginSchema>) => {
 		try {
 			setIsLoading(true);
-			const response = await loginUserHandler(data);
+			const response = await loginUserHandler(data as any);
 			if (response && response.token) {
 				toast({
 					title: "Login successful.",
@@ -58,7 +61,7 @@ const LoginForm = () => {
 				variant: "destructive",
 			});
 			setIsLoading(false);
-			console.log("error", error);
+			console.error("Login error:", error);
 		}
 	};
 
@@ -76,6 +79,7 @@ const LoginForm = () => {
 							</FormLabel>
 							<FormControl>
 								<Input
+									type='email'
 									placeholder='Enter your email'
 									{...field}
 								/>

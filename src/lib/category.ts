@@ -2,6 +2,7 @@ import Logger from "@/utils/logger";
 import * as FetchUtils from "./common/fetch-utils";
 import { ICategory } from "@/types/category";
 
+// eslint-disable-next-line
 const logger = new Logger("lib/category");
 
 const apiUrl = `${process.env.NEXT_PUBLIC_URL}/api/categories`;

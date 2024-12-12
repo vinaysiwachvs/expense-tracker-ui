@@ -8,6 +8,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
+import { Button } from "./ui/button";
 
 function User({ user, title = true }: { user: IUser; title?: boolean }) {
 	const handleLogout = async () => {
@@ -23,8 +24,10 @@ function User({ user, title = true }: { user: IUser; title?: boolean }) {
 				<DropdownMenuLabel>{user.name}</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>
-					<LogOut className='mr-2' />
-					<span>Log out</span>
+					<Button onClick={handleLogout}>
+						<LogOut className='mr-2' />
+						<span>Log out</span>
+					</Button>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

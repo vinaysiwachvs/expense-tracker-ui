@@ -1,6 +1,7 @@
 import { IBudget } from "@/types/budget";
 import { getUserCategories } from "@/lib/category";
 import Link from "next/link";
+import { formatCurrency } from "@/utils/common";
 
 async function BudgetItem({ budget }: { budget: IBudget }) {
 	const categories = await getUserCategories();
@@ -30,16 +31,19 @@ async function BudgetItem({ budget }: { budget: IBudget }) {
 				</div>
 
 				<h2 className='font-bold text-primary'>
-					₹{budget.total_amount}
+					{formatCurrency(budget.total_amount)}
 				</h2>
 			</div>
 			<div className='mt-5'>
 				<div className='flex items-center justify-between mb-3'>
 					<h2 className='text-xs font-semibold text-slate-400'>
-						₹{budget.used_amount} spend
+						{formatCurrency(budget.used_amount)} spend
 					</h2>
 					<h2 className='text-xs font-semibold text-slate-400'>
-						₹{budget.total_amount - budget.used_amount} remaining
+						{formatCurrency(
+							budget.total_amount - budget.used_amount,
+						)}{" "}
+						remaining
 					</h2>
 				</div>
 				<div className='w-full bg-slate-300 h-2 rounded-full'>

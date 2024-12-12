@@ -36,7 +36,7 @@ function AddExpense({ budgetInput }: { budgetInput?: IBudget }) {
 	const [name, setName] = useState("");
 	const [amount, setAmount] = useState(0);
 	const [budget, setBudget] = useState<string>(
-		budgetInput ? budgetInput.name : "",
+		budgetInput ? (budgetInput._id as string) : "",
 	);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -68,7 +68,7 @@ function AddExpense({ budgetInput }: { budgetInput?: IBudget }) {
 			const response = await createExpenseAction({
 				name,
 				amount,
-				budget,
+				budgetId: budget,
 			});
 			if (response) {
 				toast({
