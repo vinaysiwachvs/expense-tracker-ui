@@ -10,7 +10,7 @@ const apiUrl = `${process.env.NEXT_PUBLIC_URL}/api/expenses`;
 export const createExpense = async (payload: {
 	name: string;
 	amount: number;
-	budgetId: string;
+	budget: string;
 }) => {
 	const response = await FetchUtils.post(apiUrl, payload, {
 		isWithToken: true,

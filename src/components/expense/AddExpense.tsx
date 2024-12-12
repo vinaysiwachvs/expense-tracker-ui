@@ -68,7 +68,7 @@ function AddExpense({ budgetInput }: { budgetInput?: IBudget }) {
 			const response = await createExpenseAction({
 				name,
 				amount,
-				budgetId: budget,
+				budget,
 			});
 			if (response) {
 				toast({
@@ -78,7 +78,7 @@ function AddExpense({ budgetInput }: { budgetInput?: IBudget }) {
 			}
 
 			setName("");
-			setBudget("");
+			setBudget(budgetInput ? (budgetInput._id as string) : "");
 			setAmount(0);
 		} catch (error) {
 			toast({

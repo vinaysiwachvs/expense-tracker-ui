@@ -82,7 +82,7 @@ function CreateBudget() {
 					variant: "success",
 				});
 			}
-			setCategories([]);
+			setCategories(categories);
 			setName("");
 			setTotalAmount(0);
 		} catch (error) {
