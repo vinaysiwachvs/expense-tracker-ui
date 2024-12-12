@@ -1,22 +1,18 @@
-import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
-import "../globals.css";
+import DashboardHeader from "@/components/DashboardHeader";
+import SideNav from "@/components/SideNav";
 
-export const metadata: Metadata = {
-	title: "Expense Tracker",
-	description: "Created by Vinay Siwach",
-};
-
-const outfit = Outfit({ subsets: ["latin"] });
-
-export default function RootLayout({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
+function DashboardLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang='en'>
-			<body className={outfit.className}>{children}</body>
-		</html>
+		<div className=''>
+			<div className='fixed md:w-64 hidden md:block '>
+				<SideNav />
+			</div>
+			<div className='md:ml-64 '>
+				<DashboardHeader />
+				{children}
+			</div>
+		</div>
 	);
 }
+
+export default DashboardLayout;

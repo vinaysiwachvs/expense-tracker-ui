@@ -1,74 +1,155 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { registerUserHandler } from "@/actions/auth";
+import { useRouter } from "next/navigation";
+import CommonButton from "../common/Button";
+import { useState } from "react";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 
-function RegisterForm() {
+// Define the schema with Zod validation
+const registerSchema = z.object({
+	name: z
+		.string()
+		.min(1, "Name is required")
+		.max(50, "Name must not exceed 50 characters"),
+	email: z.string().email("Invalid email address"),
+	password: z
+		.string()
+		.min(6, "Password must be at least 6 characters")
+		.max(50, "Password must not exceed 50 characters"),
+});
+
+const RegisterForm = () => {
+	const router = useRouter();
+	const [isLoading, setIsLoading] = useState(false);
+	const { toast } = useToast();
+	const form = useForm<z.infer<typeof registerSchema>>({
+		resolver: zodResolver(registerSchema),
+		defaultValues: {
+			name: "",
+			email: "",
+			password: "",
+		},
+	});
+
+	const onSubmit = async (data: z.infer<typeof registerSchema>) => {
+		try {
+			setIsLoading(true);
+			const response = await registerUserHandler(data);
+			if (response && response.token) {
+				toast({
+					title: "Registration successful.",
+					variant: "success",
+				});
+				setIsLoading(false);
+				router.push("/");
+			}
+		} catch (error) {
+			toast({
+				title: "Registration failed.",
+				variant: "destructive",
+			});
+			setIsLoading(false);
+			console.log("error", error);
+		}
+	};
+
 	return (
-		<form className='space-y-6'>
-			<div>
-				<label
-					htmlFor='name'
-					className='block text-sm font-medium text-gray-700'>
-					Name
-				</label>
-				<input
-					type='text'
-					id='name'
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+				{/* Name Input Field */}
+				<FormField
+					control={form.control}
 					name='name'
-					placeholder='Vinay Siwach'
-					required
-					className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel className='text-foreground'>
+								Name
+							</FormLabel>
+							<FormControl>
+								<Input
+									placeholder='Enter your name'
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
 				/>
-			</div>
 
-			{/* Email */}
-			<div>
-				<label
-					htmlFor='email'
-					className='block text-sm font-medium text-gray-700'>
-					Email Address
-				</label>
-				<input
-					type='email'
-					id='email'
+				{/* Email Input Field */}
+				<FormField
+					control={form.control}
 					name='email'
-					placeholder='vinay@mail.com'
-					required
-					className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel className='text-foreground'>
+								Email Address
+							</FormLabel>
+							<FormControl>
+								<Input
+									placeholder='Enter your email'
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
 				/>
-			</div>
 
-			{/* Password Fields */}
-			<div>
-				<label
-					htmlFor='password'
-					className='block text-sm font-medium text-gray-700'>
-					Password
-				</label>
-				<input
-					type='password'
-					id='password'
+				{/* Password Input Field */}
+				<FormField
+					control={form.control}
 					name='password'
-					required
-					placeholder='••••••••'
-					className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel className='text-foreground'>
+								Password
+							</FormLabel>
+							<FormControl>
+								<Input
+									type='password'
+									placeholder='Enter your password'
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
 				/>
-			</div>
 
-			{/* Submit Button */}
-			<div className='flex flex-col items-center space-y-3'>
-				<button
-					type='submit'
-					className='w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>
-					Sign Up
-				</button>
-				<p className='text-sm text-gray-600'>
-					Already have an account?{" "}
-					<Link href='/login' className='text-blue-600'>
-						Log in
-					</Link>
-				</p>
-			</div>
-		</form>
+				{/* Submit Button */}
+
+				<div className='flex flex-col items-center space-y-3'>
+					<CommonButton
+						type='submit'
+						loading={isLoading}
+						className='w-full bg-blue-600 text-white py-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'>
+						Register
+					</CommonButton>
+					<p className='text-sm text-gray-600'>
+						Already have an account?{" "}
+						<Link href='/login' className='text-blue-600'>
+							Login
+						</Link>
+					</p>
+				</div>
+			</form>
+		</Form>
 	);
-}
+};
 
 export default RegisterForm;

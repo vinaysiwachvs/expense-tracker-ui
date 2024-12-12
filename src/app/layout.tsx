@@ -1,5 +1,5 @@
 import React from "react";
-import "../globals.css";
+import "./globals.css";
 import { Metadata } from "next";
 import { Toaster } from "@/components/ui/toaster";
 
